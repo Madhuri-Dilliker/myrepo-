@@ -1,8 +1,7 @@
 ---
 title: "Week 1: Star Wars API R project"
 output: html_notebook
-params:
-  symbol:Star
+
 ---
 Requirements:
 
@@ -32,13 +31,13 @@ library(jsonlite) #Handling json data
 
 2] Store data for each endpoint in different variables.
 Path for each endpoint is mentioned in the API documentation.
+Link for the StarWars API: https://swapi.dev/
 ```{r}
 People <- "https://swapi.dev/api/people/"
 Planets <- "https://swapi.dev/api/planets/"
 Films <- "https://swapi.dev/api/films/"
 ```
-
-3] Build a API request and submit it. Using get function from httr package for each endpoint to get the request from the API
+3] Building a API request and submit it. Using get function from httr package for each endpoint to get the request from the API
 
 ```{r}
 request_people <- GET(People)
@@ -63,7 +62,7 @@ Here we have received status code of 200 for all our endpoints.
 ```{r}
 request_people
 ```
-6] Parsing the content from serveras text using content function
+6] Parsing the content from server to json format then converting it to dataframe format in r using rbind
 ```{r}
 People_json <- fromJSON(People)
 People_data <- do.call(rbind, People_json)
@@ -71,7 +70,7 @@ People_data
 
 
 Planet_json <- fromJSON(Planets)
-Planet_data <- do.call(25, Planet_json)
+Planet_data <- do.call(rbind, Planet_json)
 Planet_data
 
 
@@ -79,26 +78,45 @@ Films_json <- fromJSON(Films)
 Films_data <-do.call(rbind,Films_json)
 Films_data
 ```
-
-
+Viewing the Planet_data, People_data and Film_data dataframes
+ 
 ```{r}
-
 View(Planet_data)
-
-```
-
-
-```{r}
 View(People_data)
-```
-
-```{r}
 View(Films_data)
 ```
 
-```{r}
+In People_data dataframe we want a new column called planet id which will store the id of Planet_data dataframe so id is extracted from the homeworld column which has planet endpoint api mentioned in the column.
 
-#merge(Films_data, People_data,Planet_data, all= True)
+Helpful link
+https://stackoverflow.com/questions/49628339/extracting-parameter-from-url-in-r
+
+```{r}
+People_data$PlanetId <- gsub("[^0-9]", "", People_data$homeworld)
+```
+
+In Planet_data create a new column to store the extract id from url column.
+
+```{r}
+Planet_data$Id <- gsub("[^0-9]", "", Planet_data$url)
+```
+
+First two rows in the people dataframe id are invalid so replacing it with NA values
+
+```{r}
+People_data$PlanetId[1] <- NA
+People_data$PlanetId[2] <- NA
+
+```
+
+
+First two rows in the planet dataframe id are invalid so replacing it with NA values
+
+
+```{r}
+Planet_data$Id[1] <- NA  
+Planet_data$Id[2] <- NA  
+
 
 ```
 

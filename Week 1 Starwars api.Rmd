@@ -1,0 +1,107 @@
+---
+title: "Week 1: Star Wars API R project"
+output: html_notebook
+params:
+  symbol:Star
+---
+Requirements:
+
+1. Pull the data from Star wars API
+
+a)R library used for submitting http request to web service API and parsing the content in R are httr and jsonlite
+
+2. Person,Planets and films as endpoint to create joined dataframe
+
+a) Need to fetch 3 endpoints in R studio i.e people, planets and films and combine them into one dataframe
+
+
+3. Endproduct will be a datafrane of 10 rows of characters with basic fields, name of home planet and name of director in first film in which they appear.Assume that first film with lowest API id. 
+
+a)10 fields will be : Name, Height, Mass, Hair_color, Skin_color, Birth_year, gender, homeworld(planet), director(film)
+
+
+1] Loading library to sent API request and parse the content 
+
+```{r}
+library(tidyverse) 
+library(dplyr)
+library(httr) #for api request
+library(jsonlite) #Handling json data
+
+```
+
+2] Store data for each endpoint in different variables.
+Path for each endpoint is mentioned in the API documentation.
+```{r}
+People <- "https://swapi.dev/api/people/"
+Planets <- "https://swapi.dev/api/planets/"
+Films <- "https://swapi.dev/api/films/"
+```
+
+3] Build a API request and submit it. Using get function from httr package for each endpoint to get the request from the API
+
+```{r}
+request_people <- GET(People)
+request_Planets <- GET(Planets)
+request_Films <- GET(Films)
+
+```
+
+4] Check the status code for each request endpoints
+
+Note: Status code of 200 indicates if the request is sucessfull and here we need to check if the API returned an error or not. Status code for error is 404.
+
+```{r}
+request_people$status_code
+request_Planets$status_code
+request_Films$status_code
+```
+Here we have received status code of 200 for all our endpoints.
+
+5]Data we have received is in Json format we need to parse or handle this json data 
+
+```{r}
+request_people
+```
+6] Parsing the content from serveras text using content function
+```{r}
+People_json <- fromJSON(People)
+People_data <- do.call(rbind, People_json)
+People_data
+
+
+Planet_json <- fromJSON(Planets)
+Planet_data <- do.call(25, Planet_json)
+Planet_data
+
+
+Films_json <- fromJSON(Films)
+Films_data <-do.call(rbind,Films_json)
+Films_data
+```
+
+
+```{r}
+
+View(Planet_data)
+
+```
+
+
+```{r}
+View(People_data)
+```
+
+```{r}
+View(Films_data)
+```
+
+```{r}
+
+#merge(Films_data, People_data,Planet_data, all= True)
+
+```
+
+
+
+

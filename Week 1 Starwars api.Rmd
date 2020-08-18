@@ -78,7 +78,7 @@ Films_json <- fromJSON(Films)
 Films_data <-do.call(rbind,Films_json)
 Films_data
 ```
-Viewing the Planet_data, People_data and Film_data dataframes
+7] Viewing the Planet_data, People_data and Film_data dataframes
  
 ```{r}
 View(Planet_data)
@@ -86,7 +86,7 @@ View(People_data)
 View(Films_data)
 ```
 
-In People_data dataframe we want a new column called planet id which will store the id of Planet_data dataframe so id is extracted from the homeworld column which has planet endpoint api mentioned in the column.
+8] In People_data dataframe we want a new column called planet id which will store the id of Planet_data dataframe so id is extracted from the homeworld column which has planet endpoint api mentioned in the column.
 
 Helpful link
 https://stackoverflow.com/questions/49628339/extracting-parameter-from-url-in-r
@@ -95,13 +95,13 @@ https://stackoverflow.com/questions/49628339/extracting-parameter-from-url-in-r
 People_data$PlanetId <- gsub("[^0-9]", "", People_data$homeworld)
 ```
 
-In Planet_data create a new column to store the extract id from url column.
+9] In Planet_data create a new column to store the extract id from url column.
 
 ```{r}
 Planet_data$Id <- gsub("[^0-9]", "", Planet_data$url)
 ```
 
-First two rows in the people dataframe id are invalid so replacing it with NA values
+10] First two rows in the people dataframe id are invalid so replacing it with NA values
 
 ```{r}
 People_data$PlanetId[1] <- NA
@@ -110,7 +110,7 @@ People_data$PlanetId[2] <- NA
 ```
 
 
-First two rows in the planet dataframe id are invalid so replacing it with NA values
+11] First two rows in the planet dataframe id are invalid so replacing it with NA values
 
 
 ```{r}

@@ -26,7 +26,7 @@ library(tidyverse)
 library(dplyr)
 library(httr) #for api request
 library(jsonlite) #Handling json data
-
+library(plyr) #joining the dataframes
 ```
 
 2] Store data for each endpoint in different variables.
@@ -98,7 +98,7 @@ People_data$PlanetId <- gsub("[^0-9]", "", People_data$homeworld)
 9] In Planet_data create a new column to store the extract id from url column.
 
 ```{r}
-Planet_data$Id <- gsub("[^0-9]", "", Planet_data$url)
+Planet_data$PlanetId <- gsub("[^0-9]", "", Planet_data$url)
 ```
 
 10] First two rows in the people dataframe id are invalid so replacing it with NA values
@@ -114,12 +114,16 @@ People_data$PlanetId[2] <- NA
 
 
 ```{r}
-Planet_data$Id[1] <- NA  
-Planet_data$Id[2] <- NA  
+Planet_data$PlanetId[1] <- NA  
+Planet_data$PlanetId[2] <- NA  
 
 
 ```
+12] Get the matching planet name based on planet id present in people's dataframe
+Helpful Link: https://stackoverflow.com/questions/1299871/how-to-join-merge-data-frames-inner-outer-left-right
+```{r}
+People_data$PlanetName <- Planet_data$name[ match(People_data$PlanetId, Planet_data$PlanetId) ]
 
-
+```
 
 

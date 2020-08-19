@@ -161,7 +161,7 @@ Films_data$FilmId[1] <- NA
 ```
 
 
-17] In People_data dataframe we create a new column named as "FilmDirectorName" to store the director's name if the FilmId match is found in People_data and Films_data dataframe
+17] In People_data dataframe we create a new column named as "FilmDirectorName" to store the director's name if the FilmId match is found in People_data and Films_data dataframe.
 
 ```{r}
 People_data$FilmDirectorName <- Films_data$director[ match(People_data$FilmId, Films_data$FilmId) ]

@@ -138,6 +138,7 @@ People_data$FilmIdList <- gsub("[^0-9]", "", People_data$films)
 
 14] From previous step we have a  numberic list extracted from film column, now we need the first or lowest api to be extrated from this column. To do so we first create a new column called FilmId and store the first numeric character in this column for each people's row.
 
+Helpful link:
 https://stackoverflow.com/questions/21675379/r-only-keep-the-3-x-first-characters-in-a-all-rows-in-a-column
 
 ```{r}

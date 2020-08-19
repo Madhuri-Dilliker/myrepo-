@@ -26,17 +26,17 @@ library(tidyverse)
 library(dplyr)
 library(httr) #for api request
 library(jsonlite) #Handling json data
-library(plyr) #joining the dataframes
+
 ```
 
-2] Store data for each endpoint in different variables.
-Path for each endpoint is mentioned in the API documentation.
-Link for the StarWars API: https://swapi.dev/
+2] Storing the data for each endpoint in different variables.Path for each endpoint is mentioned in the API documentation.Link for the StarWars API: https://swapi.dev/
+
 ```{r}
 People <- "https://swapi.dev/api/people/"
 Planets <- "https://swapi.dev/api/planets/"
 Films <- "https://swapi.dev/api/films/"
 ```
+
 3] Building a API request and submit it. Using get function from httr package for each endpoint to get the request from the API
 
 ```{r}
@@ -62,7 +62,8 @@ Here we have received status code of 200 for all our endpoints.
 ```{r}
 request_people
 ```
-6] Parsing the content from server to json format then converting it to dataframe format in r using rbind
+6] Parsing the content from server to json format then converting it to dataframe format in r using rbind.
+
 ```{r}
 People_json <- fromJSON(People)
 People_data <- do.call(rbind, People_json)
@@ -86,16 +87,16 @@ View(People_data)
 View(Films_data)
 ```
 
-8] In People_data dataframe we want a new column called planet id which will store the id of Planet_data dataframe so id is extracted from the homeworld column which has planet endpoint api mentioned in the column.
+8] In People_data dataframe we want a new column called planet id which will store the id of Planet_data dataframe, so planet id is extracted from the homeworld column which contains planet endpoint api.
 
-Helpful link
+Helpful link:
 https://stackoverflow.com/questions/49628339/extracting-parameter-from-url-in-r
 
 ```{r}
 People_data$PlanetId <- gsub("[^0-9]", "", People_data$homeworld)
 ```
 
-9] In Planet_data create a new column to store the extract id from url column.
+9] Creating a new column called planet id in Planet_data dataframe and storing the extracted id from url column in new column.
 
 ```{r}
 Planet_data$PlanetId <- gsub("[^0-9]", "", Planet_data$url)
@@ -116,14 +117,53 @@ People_data$PlanetId[2] <- NA
 ```{r}
 Planet_data$PlanetId[1] <- NA  
 Planet_data$PlanetId[2] <- NA  
-
-
 ```
-12] Get the matching planet name based on planet id present in people's dataframe
+
+12] Getting the matching planet name from planet_data dataframe based on planet id present in people's dataframe
+
 Helpful Link: https://stackoverflow.com/questions/1299871/how-to-join-merge-data-frames-inner-outer-left-right
+
+
 ```{r}
 People_data$PlanetName <- Planet_data$name[ match(People_data$PlanetId, Planet_data$PlanetId) ]
 
 ```
 
+13] In People_data dataframe creating a new column called FilmList to store the list of flim id for each people's row. New column will contain the numberic string which is extracted from films column. The films column contain the single or list endpint api listed.
+
+```{r}
+People_data$FilmIdList <- gsub("[^0-9]", "", People_data$films)
+
+```
+
+14] From previous step we have a  numberic list extracted from film column, now we need the first or lowest api to be extrated from this column. To do so we first create a new column called FilmId and store the first numeric character in this column for each people's row.
+
+https://stackoverflow.com/questions/21675379/r-only-keep-the-3-x-first-characters-in-a-all-rows-in-a-column
+
+```{r}
+People_data$FilmId<- substr(People_data$FilmIdList, 0, 1)
+
+```
+
+15] In Films_data dataframe we need to have filmid for each row in this dataframe. So we are extracting the id from the url column and storing it in new column named as FilmId
+
+```{r}
+
+Films_data$FilmId <- gsub("[^0-9]", "", Films_data$url)
+
+```
+
+16] First row in the film dataframe id are invalid so replacing it with NA values
+
+```{r}
+Films_data$FilmId[1] <- NA
+```
+
+
+17] In People_data dataframe we create a new column named as "FilmDirectorName" to store the director's name if the FilmId match is found in People_data and Films_data dataframe
+
+```{r}
+People_data$FilmDirectorName <- Films_data$director[ match(People_data$FilmId, Films_data$FilmId) ]
+
+```
 

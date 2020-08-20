@@ -91,15 +91,20 @@ View(Films_data)
 
 Helpful link:
 https://stackoverflow.com/questions/49628339/extracting-parameter-from-url-in-r
+https://stackoverflow.com/questions/25991824/remove-all-characters-before-a-period-in-a-string
 
 ```{r}
-People_data$PlanetId <- gsub("[^0-9]", "", People_data$homeworld)
+
+People_data$PlanetId<-gsub(".*planets/","",People_data$homeworld)
+People_data$PlanetId<-gsub("\\/.*","", People_data$PlanetId )
+
 ```
 
 9] Creating a new column called planet id in Planet_data dataframe and storing the extracted id from url column in new column.
 
 ```{r}
-Planet_data$PlanetId <- gsub("[^0-9]", "", Planet_data$url)
+Planet_data$PlanetId <- gsub(".*planets/", "", Planet_data$url)
+Planet_data$PlanetId<-gsub("\\/.*","", Planet_data$PlanetId )
 ```
 
 10] First two rows in the people dataframe id are invalid so replacing it with NA values
@@ -127,12 +132,16 @@ Helpful Link: https://stackoverflow.com/questions/1299871/how-to-join-merge-data
 ```{r}
 People_data$PlanetName <- Planet_data$name[ match(People_data$PlanetId, Planet_data$PlanetId) ]
 
+
 ```
 
 13] In People_data dataframe creating a new column called FilmList to store the list of flim id for each people's row. New column will contain the numberic string which is extracted from films column. The films column contain the single or list endpint api listed.
-
+Help Link: https://stackoverflow.com/questions/14543627/extracting-numbers-from-vectors-of-strings
+#argument is not an atomic vector; coercing
 ```{r}
-People_data$FilmIdList <- gsub("[^0-9]", "", People_data$films)
+
+People_data$FilmIdList<-sapply(People_data$films, function(x) sub('http://swapi.dev/api/films/', "",x))
+People_data$FilmIdList<-gsub("\\/","", People_data$FilmIdList )
 
 ```
 
@@ -142,7 +151,9 @@ Helpful link:
 https://stackoverflow.com/questions/21675379/r-only-keep-the-3-x-first-characters-in-a-all-rows-in-a-column
 
 ```{r}
-People_data$FilmId<- substr(People_data$FilmIdList, 0, 1)
+
+People_data$FilmId<-gsub( "\ .*$", "", People_data$FilmIdList )
+People_data$FilmId<-gsub( ".*?([0-9]+).*", "\\1", People_data$FilmId )
 
 ```
 
@@ -150,7 +161,9 @@ People_data$FilmId<- substr(People_data$FilmIdList, 0, 1)
 
 ```{r}
 
-Films_data$FilmId <- gsub("[^0-9]", "", Films_data$url)
+#Films_data$FilmId <- gsub("[^0-9]", "", Films_data$url)
+Films_data$FilmId <- gsub(".*films/", "", Films_data$url)
+Films_data$FilmId <-gsub("\\/.*","", Films_data$FilmId )
 
 ```
 
@@ -164,7 +177,7 @@ Films_data$FilmId[1] <- NA
 17] In People_data dataframe we create a new column named as "FilmDirectorName" to store the director's name if the FilmId match is found in People_data and Films_data dataframe.
 
 ```{r}
-People_data$FilmDirectorName <- Films_data$director[ match(People_data$FilmId, Films_data$FilmId) ]
+People_data$FilmDirectorName <- Films_data$director[ match(People_data$FilmId, Films_data$FilmId)]
 
 ```
 

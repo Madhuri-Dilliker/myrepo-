@@ -1,13 +1,21 @@
 ---
 title: "Week 1: Star Wars API R project"
 output: html_notebook
+# html_document:
+#   css: [h3 {
+ # text-align: center;
+#}]
+
+
 
 ---
-Requirements:
+
+
+### Requirements:
 
 1. Pull the data from Star wars API
 
-a)R library used for submitting http request to web service API and parsing the content in R are httr and jsonlite
+a) R library used for submitting http request to web service API and parsing the content in R are httr and jsonlite
 
 2. Person,Planets and films as endpoint to create joined dataframe
 
@@ -18,6 +26,7 @@ a) Need to fetch 3 endpoints in R studio i.e people, planets and films and combi
 
 a)10 fields will be : Name, Height, Mass, Hair_color, Skin_color, Birth_year, gender, homeworld(planet), director(film)
 
+### Loading Library
 
 1] Loading library to sent API request and parse the content 
 
@@ -36,6 +45,8 @@ People <- "https://swapi.dev/api/people/"
 Planets <- "https://swapi.dev/api/planets/"
 Films <- "https://swapi.dev/api/films/"
 ```
+
+### Getting the API request 
 
 3] Building a API request and submit it. Using get function from httr package for each endpoint to get the request from the API
 
@@ -62,6 +73,8 @@ Here we have received status code of 200 for all our endpoints.
 ```{r}
 request_people
 ```
+### Parsing the data from json format and converting it to dataframe format
+
 6] Parsing the content from server to json format then converting it to dataframe format in r using rbind.
 
 ```{r}
@@ -123,6 +136,7 @@ People_data$PlanetId[2] <- NA
 Planet_data$PlanetId[1] <- NA  
 Planet_data$PlanetId[2] <- NA  
 ```
+### Extracting planet name from planet_data dataframe
 
 12] Getting the matching planet name from planet_data dataframe based on planet id present in people's dataframe
 
@@ -172,6 +186,7 @@ Films_data$FilmId <-gsub("\\/.*","", Films_data$FilmId )
 ```{r}
 Films_data$FilmId[1] <- NA
 ```
+### Extracting Director Name  from Films_data dataframe
 
 
 17] In People_data dataframe we create a new column named as "FilmDirectorName" to store the director's name if the FilmId match is found in People_data and Films_data dataframe.
@@ -179,5 +194,12 @@ Films_data$FilmId[1] <- NA
 ```{r}
 People_data$FilmDirectorName <- Films_data$director[ match(People_data$FilmId, Films_data$FilmId)]
 
+```
+
+```{r}
+
+
+People_data$peopleId <- gsub(".*films/", "", People_data$url)
+People_data$peopleId  <-gsub("\\/.*","", People_data$peopleId  )
 ```
 

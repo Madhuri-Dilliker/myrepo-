@@ -196,6 +196,8 @@ People_data$FilmDirectorName <- Films_data$director[ match(People_data$FilmId, F
 
 ```
 
+18]In People_data dataframe we need to have peopleId for each row in this dataframe. So we are extracting the id from the url column and storing it in new column named as peopleId
+
 ```{r}
 
 

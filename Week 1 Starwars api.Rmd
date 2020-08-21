@@ -1,15 +1,12 @@
 ---
-title: "Week 1: Star Wars API R project"
-output: html_notebook
-# html_document:
-#   css: [h3 {
- # text-align: center;
-#}]
-
-
-
+title: 'Week 1: Star Wars API R project'
+output:
+params:
+  Id: 1  
+html_document:
+    toc: true
+    toc_depth: 3
 ---
-
 
 ### Requirements:
 
@@ -26,11 +23,17 @@ a) Need to fetch 3 endpoints in R studio i.e people, planets and films and combi
 
 a)10 fields will be : Name, Height, Mass, Hair_color, Skin_color, Birth_year, gender, homeworld(planet), director(film)
 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
 ### Loading Library
 
 1] Loading library to sent API request and parse the content 
 
-```{r}
+```{r include=FALSE}
 library(tidyverse) 
 library(dplyr)
 library(httr) #for api request
@@ -73,8 +76,7 @@ Here we have received status code of 200 for all our endpoints.
 ```{r}
 request_people
 ```
-### Parsing the data from json format and converting it to dataframe format
-
+ppppppppppppppppppppppppppp
 6] Parsing the content from server to json format then converting it to dataframe format in r using rbind.
 
 ```{r}
@@ -201,7 +203,15 @@ People_data$FilmDirectorName <- Films_data$director[ match(People_data$FilmId, F
 ```{r}
 
 
-People_data$peopleId <- gsub(".*films/", "", People_data$url)
-People_data$peopleId  <-gsub("\\/.*","", People_data$peopleId  )
+People_data$Id <- gsub(".*people/", "", People_data$url)
+People_data$Id<-gsub("\\/.*","", People_data$Id)
 ```
+
+```{r, message=FALSE}
+#passing parameters
+Id<-params$Id
+People_data[match(Id,People_data$Id),]
+
+```
+
 

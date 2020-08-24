@@ -1,5 +1,5 @@
 ---
-title: "Character Sheet"
+title: "Week 1 Starwars api"
 output: html_document
 params:
   Id: 3

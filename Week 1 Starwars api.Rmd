@@ -1,13 +1,11 @@
 ---
-title: 'Week 1: Star Wars API R project'
-output:
+title: "Character Sheet"
+output: html_document
 params:
-  Id: 1  
-html_document:
-    toc: true
-    toc_depth: 3
+  Id: 3
+  Char_name: "Luke"
+  Height: "172"
 ---
-
 ### Requirements:
 
 1. Pull the data from Star wars API
@@ -24,9 +22,13 @@ a) Need to fetch 3 endpoints in R studio i.e people, planets and films and combi
 a)10 fields will be : Name, Height, Mass, Hair_color, Skin_color, Birth_year, gender, homeworld(planet), director(film)
 
 
+
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 
 
 ### Loading Library
@@ -76,7 +78,7 @@ Here we have received status code of 200 for all our endpoints.
 ```{r}
 request_people
 ```
-ppppppppppppppppppppppppppp
+
 6] Parsing the content from server to json format then converting it to dataframe format in r using rbind.
 
 ```{r}
@@ -214,4 +216,15 @@ People_data[match(Id,People_data$Id),]
 
 ```
 
+
+#### `r People_data[params$Id,1]`'s Character Sheet
+
+#### Height: `r People_data [params$Id,2]`
+#### Mass: `r People_data [params$Id,3]`
+#### Hair Color: `r People_data [params$Id,4]`
+#### Skin Color: `r People_data [params$Id,5]`
+#### Birth Year: `r People_data [params$Id,6]`
+#### Gender: `r People_data [params$Id,7]`
+#### Planet Name: `r People_data [params$Id,18]`
+#### Film Director Name: `r People_data [params$Id,21]`
 

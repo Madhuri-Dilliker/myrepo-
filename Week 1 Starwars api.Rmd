@@ -1,12 +1,17 @@
 ---
 title: "Week 1 Starwars api"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      toc_collapsed: true
+    toc_depth: 3
 params:
   Id: 3
   Char_name: "Luke"
   Height: "172"
 ---
-### Requirements:
+### Requirements
 
 1. Pull the data from Star wars API
 
@@ -215,7 +220,7 @@ Id<-params$Id
 People_data[match(Id,People_data$Id),]
 
 ```
-
+### Character Sheet
 
 #### `r People_data[params$Id,1]`'s Character Sheet
 

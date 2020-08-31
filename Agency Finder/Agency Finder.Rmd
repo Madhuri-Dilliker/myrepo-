@@ -1,0 +1,115 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+## Requirements
+1.Grab the data from the sheets
+a] make use of library called "gsheets"
+b] make a connection to google account
+c] extract the sheet which is needed
+2.Combine the data in to a dataframe called Agency Finder
+a] We can combine by creating a new dataframe all of the rows from program and add only the name of organization. 
+b] Create a list of service types for each program, put it in new column
+c] Filtering service type
+
+
+Read data from Google drive Help link:
+
+https://stackoverflow.com/questions/47851761/r-how-to-read-a-file-from-google-drive-using-r
+
+https://stackoverflow.com/questions/22873602/importing-data-into-r-from-google-spreadsheet#:~:text=Use%20the%20googlesheets%20package%2C%20a,can%20be%20installed%20with%20install.
+
+https://www.r-bloggers.com/reading-data-from-google-sheets-into-r/
+
+https://datascienceplus.com/how-to-use-googlesheets-to-connect-r-to-google-sheets/
+
+### Docuemnt shareable link from google drive
+
+```{r}
+#https://docs.google.com/spreadsheets/d/1wXGAnRVd1vVQAit0ocTp3Ocqm1ipW51sA6lxe2iNqOg/edit?usp=sharing
+```
+
+### Using Googlesheet4 library to read the data using google drive link.
+
+Note: using googlesheet4 as googlesheet library function are depricated from march 2020
+
+```{r}
+#library("googlesheets4")
+# Parameters
+  # Sheet ID for Gapminder example
+#id_gapminder <- "wXGAnRVd1vVQAit0ocTp3Ocqm1ipW51sA6lxe2iNqOg"
+```
+## Autenticate new user
+#error while authenticating the google user
+```{r}
+#gs4_deauth()
+#read_sheet("1wXGAnRVd1vVQAit0ocTp3Ocqm1ipW51sA6lxe2iNqOg")
+
+
+```
+
+```{r}
+library(googlesheets4)
+```
+
+```{r}
+gs_auth(new_user = TRUE)
+```
+
+
+###Load Data 
+```{r}
+library("readxl") 
+```
+
+```{r}
+Org_data <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/myrepoGit/AgencyFinder.xlsx", sheet = "Organization")
+Program <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/myrepoGit/AgencyFinder.xlsx", sheet = "Program")
+Loc_data <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/myrepoGit/AgencyFinder.xlsx", sheet = "Location")
+```
+
+### Dataframe
+
+```{r}
+View(Org_data)
+View(Program)
+View(Loc_data)
+```
+
+
+### Combine Program and Org Data
+Make a new dataframe all of the rows from program and add only the name of organization
+```{r}
+AgencyFinder <- as.data.frame(Program)
+AgencyFinder$OrganizationName <- Org_data$`Org Name`[ match(AgencyFinder$`Org ID`, Org_data$`Org ID`)]
+View(AgencyFinder)
+
+```
+
+### Adding service type, factor and domain
+
+Create a list of service types for each program, put it in new column
+
+fucntion == program id -->find service type in junction table and create a list from it.
+
+
+
+```{r}
+
+```
+
+
+
+### Filtering service type
+If domain given then list the service Factors in that domain
+If given service factors list all service types in that service factor
+
+```{r}
+
+```
+
+
+
+

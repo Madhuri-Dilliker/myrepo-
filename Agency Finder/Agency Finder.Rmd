@@ -90,7 +90,7 @@ View(AgencyFinder)
 
 ```
 
-View Service type program table
+ View Service type program table
 
 ```{r}
 Service_type_program <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Service Type and Program")
@@ -103,7 +103,7 @@ Create a list of service types for each program, put it in new column
 
 [fucntion == program id -->find service type in junction table and create a list from it.]
 
-1. In Agency finder dataframe,find services type id from service type and program sheet for matching program id
+1. In Agency finder dataframe,find services type id from service type and program table for matching program id
 
 ```{r}
 
@@ -134,10 +134,53 @@ View(AgencyFinder)
 If domain given then list the service Factors in that domain
 If given service factors list all service types in that service factor
 
-```{r}
+View Service Domain Table
 
+```{r}
+Service_Domain <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Service Domain")
+View(Service_Domain)
+```
+
+View Domain and Factor ID table
+
+```{r}
+Service_Domain_Factor <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Domain and Factor")
+View(Service_Domain_Factor)
 ```
 
 
+1] Fetching service factorsid based on domain id matches from Service domain table
 
+```{r}
+
+Agency_Finder_Domain <- as.data.frame(Service_Domain)
+
+Agency_Finder_Domain$ServiceFactorId <- Service_Domain_Factor$`Factor ID`[ match(Agency_Finder_Domain$`Service Domain ID`, Service_Domain_Factor$`Domain  ID`)]
+
+View(Agency_Finder_Domain)
+
+```
+
+View Factor and Type table
+
+```{r}
+Service_Factor <-read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Service Factors")
+View(Service_Factor)
+
+```
+
+2] From Factor table fectching the factors Name based on matching factor id from Service factor table
+
+```{r}
+Agency_Finder_Domain$ServiceFactorName <- Service_Factor$`Service Factor`[ match(Agency_Finder_Domain$ServiceFactorId, Service_Factor$`Service Factor ID`)]
+View(Agency_Finder_Domain)
+```
+
+###Listing service types for given service factor
+
+1] Fetching service type id, if factor name given from 
+
+```{r}
+
+```
 

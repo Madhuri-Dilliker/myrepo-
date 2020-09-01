@@ -65,10 +65,12 @@ library("readxl")
 ```
 
 ```{r}
-Org_data <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/myrepoGit/AgencyFinder.xlsx", sheet = "Organization")
-Program <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/myrepoGit/AgencyFinder.xlsx", sheet = "Program")
-Loc_data <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/myrepoGit/AgencyFinder.xlsx", sheet = "Location")
+Org_data <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Organization")
+Program <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Program")
+Loc_data <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Location")
+
 ```
+
 
 ### Dataframe
 
@@ -88,18 +90,44 @@ View(AgencyFinder)
 
 ```
 
+View Service type program table
+
+```{r}
+Service_type_program <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Service Type and Program")
+View(Service_type_program)
+```
+
 ### Adding service type, factor and domain
 
 Create a list of service types for each program, put it in new column
 
-fucntion == program id -->find service type in junction table and create a list from it.
+[fucntion == program id -->find service type in junction table and create a list from it.]
 
-
+1. In Agency finder dataframe,find services type id from service type and program sheet for matching program id
 
 ```{r}
 
+AgencyFinder$ServiceTypeId<- Service_type_program$`Service Type ID`[ match(AgencyFinder$`Program ID`, Service_type_program$`Program ID`)]
+View(AgencyFinder)
+
 ```
 
+View Service Type Info table
+
+```{r}
+Service_Type_Info <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Service Type Info")
+View(Service_Type_Info)
+```
+
+
+2.In agency finder dataframe, find service type name for matching service type id
+
+```{r}
+
+AgencyFinder$ServiceType<- Service_Type_Info$`Service Type`[ match(AgencyFinder$ServiceTypeId, Service_Type_Info$`Service Type ID`)]
+View(AgencyFinder)
+
+```
 
 
 ### Filtering service type

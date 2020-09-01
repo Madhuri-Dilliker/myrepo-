@@ -149,7 +149,7 @@ View(Service_Domain_Factor)
 ```
 
 
-1] Fetching service factorsid based on domain id matches from Service domain table
+1] Fetching service factors id based on domain id matches from Service domain table
 
 ```{r}
 
@@ -178,9 +178,20 @@ View(Agency_Finder_Domain)
 
 ###Listing service types for given service factor
 
-1] Fetching service type id, if factor name given from 
+
+View factor and type table
 
 ```{r}
-
+Service_Factors_type <-read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Factors and Type")
+View(Service_Factors_type)
 ```
 
+
+1] Fetching service type id, based on factor id match from Factor and type table
+
+```{r}
+Agency_Finder_Domain$ServiceTypeId <- Service_Factors_type$`Service Type ID`[ match(Agency_Finder_Domain$ServiceFactorId, Service_Factors_type$`Service Type ID`)]
+View(Agency_Finder_Domain)
+```
+
+2] Fetching Service type name based on service type id from Service type info

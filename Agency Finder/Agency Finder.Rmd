@@ -5,7 +5,7 @@ output: html_notebook
 
 
 ## Requirements
-1.Grab the data from the sheets
+1.Grab the data from the google sheets
 a] make use of library called "gsheets"
 b] make a connection to google account
 c] extract the sheet which is needed

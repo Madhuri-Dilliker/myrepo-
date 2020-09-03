@@ -3,14 +3,20 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-
+Helpful link:
+https://josiahparry.com/post/2020-01-13-gs4-auth/
+https://cran.r-project.org/web/packages/googlesheets4/googlesheets4.pdf
+https://github.com/tidyverse/googlesheets4
 
 ```{r message=FALSE}
 library(tidyverse)
 library(config)
 library(googlesheets4)
 library(httr)
+library(googledrive)
 ```
+
+After running gs4_auth() in console. Received following error
 
 Waiting for authentication in browser...
 Press Esc/Ctrl + C to abort
@@ -21,6 +27,56 @@ Are you running googlesheets4 in a non-interactive session? Consider:
   * Call `gs4_auth()` directly with all necessary specifics.
 See gargle's "Non-interactive auth" vignette for more details:
 https://gargle.r-lib.org/articles/non-interactive-auth.html
+
+
+```{r}
+# designate project-specific cache
+options(gargle_oauth_cache = ".secrets")
+# check the value of the option, if you like --> getting character 0
+gargle::gargle_oauth_cache()
+# trigger auth on purpose --> store a token in the specified cache
+# a broswer will be opened ---> Received same error as above  
+googlesheets4::sheets_auth()
+```
+
+```{r}
+# see your token file in the cache, if you like ---> getting character 0
+list.files(".secrets/")
+# deauth
+gs4_deauth()
+```
+
+```{r}
+# sheets reauth with specified token and email address ---> Received same error
+sheets_auth(
+  cache = ".secrets",
+  email = "madhurid@getreadyguilford.org"
+  )
+```
+```{r}
+# deauth again
+sheets_deauth()
+
+# set values in options
+options(
+  gargle_oauth_cache = ".secrets",
+  gargle_oauth_email = "madhurid@getreadyguilford.org"
+)
+
+# run sheets auth
+sheets_auth()
+```
+```{r}
+gs4_auth(
+email = gargle::gargle_oauth_email(),
+path = NULL,
+scopes = "https://www.googleapis.com/auth/spreadsheets",
+cache = gargle::gargle_oauth_cache(),
+use_oob = gargle::gargle_oob_default(),
+token = NULL
+)
+```
+#Assigning demo sheet and storing different sheets
 
 ```{r}
 # Google Sheet
@@ -34,9 +90,19 @@ factorSheet <- "service Factors"
 
 ```
 
+#After reading this sheet recived following error
+
 Error in curl::curl_fetch_memory(url, handle = handle) : Could not resolve host: sheets.googleapis.com
 
 ```{r}
 demo_ServiceType <- read_sheet(demo_google_sheet, sheet = serviceTypeSheet)
+```
+
+
+```{r}
+library(googlesheets4)
+```
+```{r}
+read_sheet(demo_google_sheet, sheet = serviceTypeSheet)
 ```
 

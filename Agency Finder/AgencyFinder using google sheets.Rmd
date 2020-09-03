@@ -1,0 +1,42 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r message=FALSE}
+library(tidyverse)
+library(config)
+library(googlesheets4)
+library(httr)
+```
+
+Waiting for authentication in browser...
+Press Esc/Ctrl + C to abort
+Authentication complete.
+Error: Can't get Google credentials.
+Are you running googlesheets4 in a non-interactive session? Consider:
+  * `gs4_deauth()` to prevent the attempt to get credentials.
+  * Call `gs4_auth()` directly with all necessary specifics.
+See gargle's "Non-interactive auth" vignette for more details:
+https://gargle.r-lib.org/articles/non-interactive-auth.html
+
+```{r}
+# Google Sheet
+demo_google_sheet <- "https://docs.google.com/spreadsheets/d/1wXGAnRVd1vVQAit0ocTp3Ocqm1ipW51sA6lxe2iNqOg/"
+# Service Type Tab Name
+serviceTypeSheet <- "Service Type Info"
+# Service Domain Tab Name
+domainSheet <- "Service Domain"
+# Service FactorTab Name
+factorSheet <- "service Factors"
+
+```
+
+Error in curl::curl_fetch_memory(url, handle = handle) : Could not resolve host: sheets.googleapis.com
+
+```{r}
+demo_ServiceType <- read_sheet(demo_google_sheet, sheet = serviceTypeSheet)
+```
+

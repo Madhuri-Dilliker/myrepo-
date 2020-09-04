@@ -43,7 +43,7 @@ factor_Id <- "SF0007"
 ### Filtering Junction_factors_type table based on example factor id to get service type
 ```{r}
 Factor_Types_1 <- Junction_factors_type
-Factor_Types_2 <- filter(Factor_Types,FactorID == factor_Id )
+Factor_Types_2 <- filter(Factor_Types_1,Factor_Types_1$FactorID== factor_Id )
 #Factor_Types_filter <- filter(Factor_Types,Factor_Types$FactorID=="SF0007") ---> Introducing NAN and time series output
 Factor_Types_3 <- left_join(Factor_Types_2,Service_Type, by='Service Type ID')
 ```
@@ -80,7 +80,7 @@ Func_factor_type <- function(factor_Id){
 ### Testing Function
 
 ```{r}
-Func_factor_type('SF0007')
+Func_factor_type('SF0004')
 ```
 
 ```{r}
@@ -92,7 +92,7 @@ paste0(Func_factor_type('SF0007'), collapse = ", ")
 test_Factors <- Service_factor
 ```
 
-### Vectorizing the function
+### Vectorizing the function.
 
 ```{r}
 test_factor_list <-Vectorize(Func_factor_type)

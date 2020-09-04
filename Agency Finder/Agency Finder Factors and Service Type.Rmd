@@ -24,9 +24,7 @@ Loc_data <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, read
 Service_factor <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Service Factors")
 Service_Type <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Service Type Info")
 Junction_factors_type <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Factors and Type")
-View(Service_factor)
-View(Service_Type)
-View(Junction_factors_type)
+
 ```
 
 ### Creating a Dataframe with factors Table

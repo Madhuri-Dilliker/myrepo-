@@ -1,0 +1,54 @@
+---
+title: "Service type and Factors"
+output: html_notebook
+---
+
+###Load Data 
+
+```{r}
+library("readxl")
+library("dplyr")
+```
+###Loading the data
+
+```{r}
+Org_data <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Organization")
+Program <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Program")
+Loc_data <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Location")
+```
+
+###Loading tables Service factor, serice type info and factor and type
+
+
+```{r}
+Service_factor <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Service Factors")
+Service_Type <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Service Type Info")
+Junction_factors_type <- read_excel("C:/Users/madhu/OneDrive/Documents/Ready for school, ready for life/Agency Finder/Agency Finder.xlsx", sheet = "Factors and Type")
+View(Service_factor)
+View(Service_Type)
+View(Junction_factors_type)
+```
+
+### Creating a Dataframe with factors Table
+
+```{r}
+AgencyFinder_Factors_Type <- as.data.frame(Service_factor)
+View(AgencyFinder_Factors_Type)
+```
+### Example factor_Id
+
+```{r}
+factor_Id <- "SF0007"
+
+```
+
+### Filtering Junction_factors_type table based on example factor id to get service type
+```{r}
+Factor_Types_1 <- Junction_factors_type
+Factor_Types_2 <- dplyr::filter(Factor_Types,Factor_Types$FactorID == factor_Id )
+#Factor_Types_filter <- filter(Factor_Types,Factor_Types$FactorID=="SF0007") ---> Introducing NAN and time series output
+Factor_Types_3 <- left_join(Factor_Types_2,Service_Type, by='Service Type ID')
+```
+
+
+

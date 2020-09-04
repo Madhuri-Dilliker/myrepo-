@@ -9,6 +9,7 @@ output: html_notebook
 library("readxl")
 library("dplyr")
 ```
+
 ###Loading the data
 
 ```{r}
@@ -42,10 +43,59 @@ factor_Id <- "SF0007"
 ### Filtering Junction_factors_type table based on example factor id to get service type
 ```{r}
 Factor_Types_1 <- Junction_factors_type
-Factor_Types_2 <- dplyr::filter(Factor_Types,Factor_Types$FactorID == factor_Id )
+Factor_Types_2 <- filter(Factor_Types,FactorID == factor_Id )
 #Factor_Types_filter <- filter(Factor_Types,Factor_Types$FactorID=="SF0007") ---> Introducing NAN and time series output
 Factor_Types_3 <- left_join(Factor_Types_2,Service_Type, by='Service Type ID')
 ```
 
+#create vector of service type names
+```{r}
+Factor_Types_3$`Service Type`
+```
+
+### Seperate service type using ,
+
+```{r}
+paste(Factor_Types_3$`Service Type`, collapse = ", ")
+
+```
+
+### Define a function that automates the above code.
+
+```{r}
+Func_factor_type <- function(factor_Id){
+  factors_df = Junction_factors_type
+  
+  factors_df <- factors_df %>% 
+    filter(`FactorID`== factor_Id) %>% 
+    left_join(Service_Type, by = 'Service Type ID')
+  
+  a = as.vector(factors_df$`Service Type`)
+  
+  
+ return( paste0(a, collapse = ";  "))
+}
+```
+
+```{r}
+Func_factor_type('SF0007')
+```
+
+```{r}
+paste0(Func_factor_type('SF0007'), collapse = ", ")
+```
+```{r}
+test_Factors <- Service_factor
+```
+
+```{r}
+test_factor_list <-Vectorize(Func_factor_type)
+
+```
+
+```{r}
+test_Factors <- test_Factors %>% 
+  mutate(ServiceTypes = test_factor_list(test_Factors$`Service Factor ID`))
+```
 
 
